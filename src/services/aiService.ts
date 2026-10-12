@@ -54,7 +54,9 @@ class AIService {
 
   constructor(config?: Partial<AIServiceConfig>) {
     this.config = {
-      endpoint: import.meta.env.VITE_PROXY_URL || 'http://localhost:3001/api/chat',
+      endpoint:
+        import.meta.env.VITE_PROXY_URL ||
+        (import.meta.env.DEV ? 'http://localhost:3001/api/chat' : '/api/chat'),
       retryAttempts: 2,
       retryDelay: 800,
       timeout: 8000,
@@ -69,8 +71,10 @@ class AIService {
   /** Cheap liveness probe — useful to call once when the palette opens. */
   async health(): Promise<{ ok: boolean; mode: 'cloud' | 'local'; detail?: unknown }> {
     try {
-      const url = new URL(this.config.endpoint);
-      const res = await fetch(`${url.origin}/health`, { signal: AbortSignal.timeout(2000) });
+      const base = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173';
+      const url = new URL(this.config.endpoint, base);
+      const healthPath = url.pathname.startsWith('/api') ? '/api/health' : '/health';
+      const res = await fetch(`${url.origin}${healthPath}`, { signal: AbortSignal.timeout(2000) });
       if (res.ok) {
         const detail = await res.json();
         const hasProvider = detail?.openai || detail?.groq;

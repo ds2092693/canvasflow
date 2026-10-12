@@ -332,13 +332,29 @@ export default function App() {
     return <RoomLanding defaultName={userName} onEnter={enterRoom} />
   }
 
+  const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:'
+
+  const rawSignaling = import.meta.env.VITE_SIGNALING_URLS
+  const signalingUrls = rawSignaling
+    ? rawSignaling
+        .split(',')
+        .map((s: string) => s.trim())
+        .filter((s: string) => !(isHttps && s.startsWith('ws://')))
+    : ['wss://signaling.yjs.dev', 'wss://y-webrtc-signaling-eu.herokuapp.com']
+
+  const rawRedis = import.meta.env.VITE_REDIS_WS_URL
+  const redisWsUrl = rawRedis && !(isHttps && rawRedis.startsWith('ws://')) ? rawRedis : undefined
+
   const collaborationConfig = {
     roomId,
     userId,
     userName,
-    redisWsUrl: import.meta.env.VITE_REDIS_WS_URL,
-    websocketUrl: import.meta.env.VITE_WEBSOCKET_URL,
-    signaling: import.meta.env.VITE_SIGNALING_URLS?.split(','),
+    redisWsUrl,
+    websocketUrl: import.meta.env.VITE_WEBSOCKET_URL || 'wss://demos.yjs.dev/ws',
+    signaling:
+      signalingUrls.length > 0
+        ? signalingUrls
+        : ['wss://signaling.yjs.dev', 'wss://y-webrtc-signaling-eu.herokuapp.com'],
   }
 
   const handleCollaborationError = (error: Error) => {
