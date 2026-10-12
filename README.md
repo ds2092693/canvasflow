@@ -1,8 +1,11 @@
 # CanvasFlow — AI-Powered Collaborative Whiteboard
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-success?style=for-the-badge&logo=vercel)](https://canvasflow-silk.vercel.app/)
 ![Tech](https://img.shields.io/badge/Tech-React%20%7C%20TypeScript%20%7C%20Vite%20%7C%20Yjs-blue)
 
 A real-time collaborative whiteboard with CRDT-based sync, WebRTC peer-to-peer networking, and an AI assistant that generates diagrams from natural language.
+
+🚀 **Live Demo:** [https://canvasflow-silk.vercel.app/](https://canvasflow-silk.vercel.app/)
 
 ---
 
