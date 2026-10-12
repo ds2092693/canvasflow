@@ -1,0 +1,552 @@
+/* src/styles/room.css — High-End Modern Landing & Topbar Room Controls */
+
+/* ============================================================== *
+ *  Landing screen (Ultra-Modern SaaS Canvas Entry)              *
+ * ============================================================== */
+.room-landing {
+  --rl-bg: #090a10;
+  --rl-card: rgba(18, 20, 32, 0.75);
+  --rl-card-border: rgba(255, 255, 255, 0.08);
+  --rl-text: #f8fafc;
+  --rl-muted: #94a3b8;
+  --rl-faint: #64748b;
+  --rl-input-bg: rgba(30, 34, 53, 0.6);
+  --rl-accent-from: #6366f1;
+  --rl-accent-to: #8b5cf6;
+  --rl-accent-pink: #ec4899;
+
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+  overflow-y: auto;
+  background-color: var(--rl-bg);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.12) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.08) 0px, transparent 60%);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  color: var(--rl-text);
+}
+
+/* Ambient glow & backdrop grid */
+.room-landing-ambient {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-grid {
+  position: absolute;
+  inset: 0;
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 80%);
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: orb-drift 12s ease-in-out infinite alternate;
+}
+
+.orb-1 {
+  width: 440px;
+  height: 440px;
+  background: radial-gradient(circle, #6366f1, #3b82f6);
+  top: 10%;
+  left: 20%;
+}
+
+.orb-2 {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, #ec4899, #8b5cf6);
+  bottom: 12%;
+  right: 18%;
+  animation-duration: 15s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes orb-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -30px) scale(1.08); }
+}
+
+/* Landing Glass Card */
+.room-landing-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  padding: 2.5rem 2.25rem 1.8rem;
+  background: var(--rl-card);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--rl-card-border);
+  border-radius: 24px;
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  animation: landing-card-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes landing-card-entrance {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header brand */
+.room-landing-head {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.landing-brand-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-bottom: 0.85rem;
+}
+
+.landing-brand-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  color: #fff;
+  box-shadow: 0 8px 24px -4px rgba(99, 102, 241, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.landing-brand-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.landing-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.landing-title {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.landing-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #818cf8;
+  margin-top: 2px;
+}
+
+.room-landing-tagline {
+  margin: 0 0 1.1rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--rl-muted);
+}
+
+.landing-feature-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.feature-chip {
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+}
+
+/* User Name Input */
+.room-field {
+  display: block;
+  margin-bottom: 1.35rem;
+}
+
+.room-field-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rl-faint);
+}
+
+.room-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.room-input-icon {
+  position: absolute;
+  left: 0.85rem;
+  font-size: 0.95rem;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.room-input {
+  width: 100%;
+  padding: 0.75rem 0.9rem 0.75rem 2.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: var(--rl-input-bg);
+  color: var(--rl-text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.room-input::placeholder {
+  color: var(--rl-faint);
+}
+
+.room-input:focus {
+  border-color: #818cf8;
+  background: rgba(30, 34, 53, 0.9);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Action Cards */
+.room-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.room-action-card {
+  padding: 1.1rem 1.15rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.room-action-card:hover {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.room-action-info {
+  margin-bottom: 0.8rem;
+}
+
+.room-action-info h3 {
+  margin: 0 0 0.25rem;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.room-action-info p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--rl-muted);
+}
+
+.room-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0.1rem 0;
+  color: var(--rl-faint);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.room-divider::before,
+.room-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.room-join-row {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.room-code-input {
+  flex: 1;
+  padding: 0.7rem 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* Action Buttons */
+.room-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.25rem;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+}
+
+.room-btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+  background-size: 200% 200%;
+  color: #ffffff;
+  box-shadow: 
+    0 8px 24px -6px rgba(99, 102, 241, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.room-btn-primary:hover:not(:disabled) {
+  background-position: 100% 0%;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 30px -6px rgba(99, 102, 241, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.room-btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.room-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #f8fafc;
+}
+
+.room-btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.24);
+  transform: translateY(-1px);
+}
+
+.room-btn-secondary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.room-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.room-btn-icon {
+  display: grid;
+  place-items: center;
+}
+
+.room-btn-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.room-landing-foot {
+  margin: 1.5rem 0 0;
+  text-align: center;
+}
+
+.security-badge {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--rl-faint);
+}
+
+/* ============================================================== *
+ *  Top-bar room control (Sleek Glass Pills)                     *
+ * ============================================================== */
+.room-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.room-bar-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin: 0 2px;
+}
+
+.room-bar-status-connected {
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+.room-bar-status-connecting {
+  background: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+  animation: room-pulse 1.4s ease-in-out infinite;
+}
+
+.room-bar-status-error {
+  background: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+@keyframes room-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.85); }
+}
+
+.room-bar-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.42rem 0.75rem;
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+  background: var(--btn-bg, #fff);
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  transition: all 0.18s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.room-bar-code:hover {
+  background: var(--btn-bg-hover, #f8fafc);
+  border-color: #6366f1;
+  transform: translateY(-1px);
+}
+
+.room-bar-code-key {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted, #64748b);
+}
+
+.room-bar-code-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #6366f1;
+}
+
+.room-bar-code-icon {
+  display: grid;
+  place-items: center;
+  color: var(--muted, #94a3b8);
+}
+
+.room-bar-code-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.room-bar-online {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.42rem 0.65rem;
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+  background: var(--btn-bg, #fff);
+  color: var(--muted, #475569);
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.room-bar-online svg {
+  width: 15px;
+  height: 15px;
+  color: #10b981;
+}
+
+.room-bar-online-count {
+  line-height: 1;
+}
+
+.room-bar-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+  border-radius: 10px;
+  background: var(--btn-bg, #fff);
+  color: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.room-bar-btn:hover:not(:disabled) {
+  background: var(--btn-bg-hover, #f8fafc);
+  border-color: #6366f1;
+  color: #6366f1;
+  transform: translateY(-1px);
+}
+
+.room-bar-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.room-bar-btn-leave:hover:not(:disabled) {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.room-bar-btn-icon {
+  display: grid;
+  place-items: center;
+}
+
+.room-bar-btn-icon svg {
+  width: 14px;
+  height: 14px;
+}

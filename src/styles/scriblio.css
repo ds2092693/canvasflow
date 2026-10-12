@@ -1,0 +1,648 @@
+/* src/styles/scriblio.css — Ultra-Modern Whiteboard UI */
+
+/* ============================================================== *
+ *  Layout Shell & Containers                                     *
+ * ============================================================== */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--canvas-bg);
+}
+
+/* ============================================================== *
+ *  Top Bar Header                                                *
+ * ============================================================== */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  height: 64px;
+  padding: 0 1.25rem;
+  background: var(--bar-bg);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-bottom: 1px solid var(--bar-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Topbar Left: Brand Identity */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 0 0 auto;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.45);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brand-logo:hover .brand-icon {
+  transform: rotate(-6deg) scale(1.05);
+}
+
+.brand-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.brand-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.brand-badge {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* ============================================================== *
+ *  Center Floating Toolbar Dock                                  *
+ * ============================================================== */
+.topbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+}
+
+.toolbar {
+  display: inline-flex;
+  align-items: center;
+}
+
+.toolbar-pills {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+  border-radius: 14px;
+  background: var(--btn-bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.tool-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tool-btn:hover {
+  background: var(--btn-bg-hover);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.tool-btn:active {
+  transform: translateY(0);
+}
+
+.tool-btn.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px -2px rgba(99, 102, 241, 0.55);
+}
+
+.tool-icon {
+  display: grid;
+  place-items: center;
+}
+
+.tool-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.tool-shortcut-badge {
+  display: none;
+}
+
+/* ============================================================== *
+ *  Topbar Right Actions                                          *
+ * ============================================================== */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex: 0 0 auto;
+}
+
+.topbar-action-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
+  color: var(--muted);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.16s ease;
+}
+
+.topbar-action-btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--border-strong);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.topbar-action-btn.active {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.topbar-action-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
+.topbar-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
+  color: var(--text-main);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.16s ease;
+}
+
+.topbar-menu-btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.topbar-menu-btn.active {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.topbar-menu-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================================== *
+ *  Canvas Viewport & Background Grid                             *
+ * ============================================================== */
+.content {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+}
+
+.canvas-wrap {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--canvas-bg);
+  background-image: radial-gradient(var(--canvas-dot) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+.scriblio-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+  touch-action: none;
+}
+
+.scriblio-canvas.cursor-eraser {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path fill='%23ffffff' stroke='%23000000' stroke-width='1.5' d='M3 14l7-7 5 5-7 7H3z'/></svg>") 4 20, crosshair;
+}
+
+/* ============================================================== *
+ *  Bottom Floating Island Controls (Footer Dock)                *
+ * ============================================================== */
+.footer-dock {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 14px;
+  background: var(--panel-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-dock);
+  font-size: 0.8rem;
+  color: var(--text-main);
+  animation: dock-entrance 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dock-entrance {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.footer-group {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.footer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.footer-btn:hover:not(:disabled) {
+  background: var(--btn-bg-hover);
+  color: var(--text-main);
+}
+
+.footer-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.footer-icon {
+  display: grid;
+  place-items: center;
+}
+
+.footer-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.footer-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+  margin: 0 0.15rem;
+}
+
+.footer-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.footer-stat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 7px;
+  background: var(--btn-bg-hover);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.footer-chip-icon {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+}
+
+.footer-selection-chip {
+  padding: 0.25rem 0.55rem;
+  border-radius: 7px;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ============================================================== *
+ *  Properties Slide-Out Panel                                   *
+ * ============================================================== */
+.sidepanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 340px;
+  height: 100vh;
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-left: 1px solid var(--border);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: -10px 0 35px -10px rgba(0, 0, 0, 0.25);
+}
+
+.sidepanel.open {
+  transform: translateX(0);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bar-bg);
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-main);
+}
+
+.close-btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.close-btn:hover {
+  background: var(--btn-bg-hover);
+  color: var(--text-main);
+}
+
+.panel {
+  flex: 1;
+  padding: 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.panel-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Color Swatches Grid */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.swatch {
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.16s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.swatch:hover {
+  transform: scale(1.06);
+}
+
+.swatch.selected {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Thickness & Style Chips */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  flex: 1;
+  min-width: 60px;
+  text-align: center;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--btn-bg);
+  color: var(--text-main);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.16s ease;
+}
+
+.chip:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--border-strong);
+}
+
+.chip.selected {
+  border-color: var(--accent);
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Sliders */
+.scriblio-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+/* Panel Actions Section */
+.panel-actions {
+  padding: 1.15rem 1.25rem;
+  border-top: 1px solid var(--border);
+  background: var(--bar-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--btn-bg);
+  color: var(--text-main);
+  font-size: 0.86rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.action-btn:hover {
+  background: var(--btn-bg-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+
+.clear-btn:hover {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.export-btn:hover {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.import-btn:hover {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: #10b981;
+  color: #10b981;
+}
+
+/* Backdrop Overlay */
+.panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 999;
+  animation: overlay-fade 0.2s ease;
+}
+
+@keyframes overlay-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ============================================================== *
+ *  Responsive adjustments                                        *
+ * ============================================================== */
+@media (max-width: 860px) {
+  .topbar {
+    padding: 0 0.8rem;
+  }
+  .brand-badge {
+    display: none;
+  }
+  .tool-shortcut-badge {
+    display: none;
+  }
+  .topbar-menu-btn span {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .brand-name {
+    display: none;
+  }
+  .footer-dock {
+    left: 0.75rem;
+    bottom: 0.75rem;
+  }
+}

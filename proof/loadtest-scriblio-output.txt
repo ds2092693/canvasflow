@@ -1,0 +1,69 @@
+Scriblio signaling server — k6 load test
+=========================================
+
+The signaling server exposes a /bench WebSocket path that echoes JSON pings.
+k6 uses it to measure WebSocket round-trip latency and connection stability
+under load, without touching the Yjs binary protocol.
+
+Scenario: ramping-vus, up to 25 concurrent clients, 60s steady window.
+Script:   proof/loadtest-scriblio.js
+Date:     2026-05-20
+
+Two runs are recorded below: one against a deployed instance (real network
+latency) and one against localhost (server-side processing latency).
+
+
+-------------------------------------------------------------------------
+RUN 1 — deployed (wss://scriblio-signaling.onrender.com/bench)
+-------------------------------------------------------------------------
+End-to-end over the public internet, against a free-tier Render instance.
+Latency here is dominated by network distance and free-tier hosting.
+
+  Command:
+    k6 run -e WS_URL=wss://scriblio-signaling.onrender.com/bench \
+           proof/loadtest-scriblio.js
+
+  THRESHOLDS
+    connect_errors ......... count=0           ✓
+    sync_latency_ms ........ p(95)=298   p(99)=558.92
+
+  RESULTS
+    connect_errors ......... 0
+    sync_latency_ms ........ avg=134.9  min=72  med=107  p(90)=207  p(95)=298  max=718
+    total_ops .............. 9843   (103.6/s)
+    ws_connecting .......... avg=426ms  p(95)=651ms
+    ws_msgs_sent ........... 9843
+    ws_msgs_received ....... 9805
+    data_received .......... 1.1 MB
+    data_sent .............. 744 kB
+    iterations ............. 25 complete, 0 interrupted
+
+  25 concurrent clients exchanged 9,843 messages over 60s with zero
+  connection errors. Median round-trip 107ms; p95 298ms — that tail is
+  network + free-tier hosting, not server processing (see Run 2).
+
+
+-------------------------------------------------------------------------
+RUN 2 — localhost (ws://localhost:4000/bench)
+-------------------------------------------------------------------------
+k6 and the server on the same machine, so this isolates the server's own
+processing latency from network cost.
+
+  Command:
+    k6 run proof/loadtest-scriblio.js
+
+  THRESHOLDS
+    connect_errors ......... count=0           ✓
+    sync_latency_ms ........ p(95)=8     p(99)=22.75       ✓
+
+  RESULTS
+    connect_errors ......... 0
+    sync_latency_ms ........ avg=2.43   min=0   med=1    p(90)=4    p(95)=8    max=623
+    total_ops .............. 9937   (104.6/s)
+    ws_connecting .......... avg=3.54ms  p(95)=11ms
+    ws_msgs_sent ........... 9937
+    ws_msgs_received ....... 9926
+    iterations ............. 25 complete, 0 interrupted
+
+  Server-side round-trip p95 is 8ms — the relay code itself is fast; the
+  deployed numbers above are network/hosting overhead.
